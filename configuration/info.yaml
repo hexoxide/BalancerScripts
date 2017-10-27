@@ -1,0 +1,11 @@
+SettingsServer:
+    Port: 2181
+    IP: 172.20.22.1
+
+InformationNode:
+  Port: 5990
+  Ip: 127.0.0.1
+
+heartrate: 20
+acknowledgePort: 5990
+heartBeatPort: 5550

@@ -1,0 +1,46 @@
+Settings: 
+  SampleSize: 100
+
+InformationNode:
+  Port: 5550
+  Ip: 172.20.22.17
+
+EPNs:
+  - EPN0: 
+    Port: 5550
+    Ip: 172.20.22.20
+  - EPN1: 
+    Port: 5550
+    Ip: 172.20.22.21
+  - EPN2: 
+    Port: 5550
+    Ip: 172.20.22.22
+  - EPN3: 
+    Port: 5550
+    Ip: 172.20.22.23
+  - EPN4:
+    Port: 5550
+    Ip: 172.20.22.24
+  - EPN5:
+    Port: 5550
+    Ip: 172.20.22.25
+  - EPN6:
+    Port: 5550
+    Ip: 172.20.22.26
+  - EPN7:
+    Port: 5550
+    Ip: 172.20.22.27
+  - EPN8: 
+    Port: 5550
+    Ip: 172.20.22.28
+  - EPN9:
+    Port: 5550
+    Ip: 172.20.22.29
+  - EPN10:
+    Port: 5550
+    Ip: 172.20.22.30
+  - EPN11:
+    Port: 5550
+    Ip: 172.20.22.31
+
+    

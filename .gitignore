@@ -5,3 +5,11 @@
 *.jpg
 *.ps
 /info
+*.retry
+*.tar
+*.log
+*.tar.xz
+*.out
+*.txt
+*.tar.gz
+

@@ -1,0 +1,18 @@
+- hosts: InformationService  
+  tasks:
+  - name: Start information service
+    shell: nohup ~/info/InformationNode --id {{ ansible_eth1.ipv4.address }} --control static --mq-config /root/epnflpconfig.json --heartbeat 20 --log-to-file=/root/logs/info &  
+    environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/fairsoft:/root/info/ 
+- hosts: Flps
+  tasks:
+  - name: Start Flps
+    shell: nohup /root/flp/flp --id {{ ansible_eth1.ipv4.address }} --control static --mq-config /root/epnflpconfig.json --event-size 23 --num-epns 12 --send-offset 0 --log-to-file=/root/logs/info & 
+    environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/fairsoft:/root/flp/
+- hosts: Epns
+  tasks:
+    - name: Start Epns
+      shell: nohup  /root/epn/epn --id {{ ansible_eth1.ipv4.address }} --control static  --mq-config /root/epnflpconfig.json --num-flps 2 --buffer-timeout 10000000 --log-to-file=/root/logs/info &
+      environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/fairsoft:/root/epn/

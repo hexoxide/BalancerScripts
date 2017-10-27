@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+sampleSize=22
+
+if [ "$2" = "sample" ]; then sampleSize=$3; fi;
+
+function startCluster {
+    ansible-playbook ./ansibleExp/start_balancing.yaml --extra-vars "sample_size=$sampleSize"
+}
+
+function stopCluster {
+    ansible-playbook ./ansibleExp/stop_balancing.yaml
+}
+
+function updateSettings {
+    ansible-playbook ./ansibleExp/deploy_settings.yaml
+}
+
+function checkEpn {
+    ansible Epns -m ping
+}
+
+function checkFlp {
+    ansible Flps -m ping
+}
+
+function checkInfo {
+    ansible InformationService -m ping
+}
+
+if [ "$1" = "start" ]; then startCluster $2 $3
+elif [ "$1" = "stop" ]; then stopCluster
+elif [ "$1" = "settings" ]; then updateSettings
+elif [ "$1" = "epn" ]; then checkEpn
+elif [ "$1" = "flp" ]; then checkFlp
+elif [ "$1" = "InfoN" ]; then checkInfo
+else
+echo "to start the cluster enter start to stop the cluster enter stop"
+fi
+

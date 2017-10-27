@@ -1,0 +1,33 @@
+#!/usr/bin/env ansible-playbook
+#- hosts: MonitoringSystem
+#  tasks: 
+#    - name: Starts collectd
+#      systemd: state=started name=collectd 
+- hosts: InformationService 
+  tasks:
+  - name: Start information service
+    shell: ./InformationNode --ip {{ ansible_eth1.ipv4.address }} --sample-size {{ sample_size }} --daemonize --info-config /root/info.yaml
+    args:
+        chdir: /root/info
+    environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/OLibs/:/root/fairsoft:/root/info/
+        O2Transport: "{{ OTransport }}"
+- hosts: Epns
+  tasks:
+    - name: Start Epns
+      shell: ./epn --ip {{ ansible_eth1.ipv4.address }} --amount-flps 2 --daemonize --epn-config /root/epn.yaml
+      args:
+         chdir: /root/epn
+      environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/OLibs/:/root/fairsoft:/root/epn/
+        O2Transport: "{{ OTransport }}"
+
+- hosts: Flps
+  tasks:
+  - name: Start Flps
+    shell: ./flp --ip {{ ansible_eth1.ipv4.address }} --daemonize --flp-config /root/flp.yaml
+    args:
+        chdir: /root/flp
+    environment:
+        LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/OLibs/:/root/fairsoft:/root/flp/
+        O2Transport: "{{ OTransport }}"

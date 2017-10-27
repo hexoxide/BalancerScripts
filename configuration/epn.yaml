@@ -1,0 +1,17 @@
+OutputPort: 5591
+
+FLPConnectionPort: 5550
+# when the Device has the same ip as the goat, it will crash 
+Goat:
+    IP: 172.20.22.20
+    heartbeat: 20
+    amount_before_signal: 3000
+    amount_after_signal: 1
+        
+SettingsServer:
+    Port: 2181
+    IP: 172.20.22.1
+
+InformationNode:
+  Port: 5990
+  Ip: 172.20.22.1

@@ -1,0 +1,9 @@
+- hosts: Epns Flps InformationService
+  tasks:
+  - copy:
+      src: ../configuration/epnflpconfig.json
+      dest: /root/
+      owner: root
+      group: root
+      mode: 0644
+

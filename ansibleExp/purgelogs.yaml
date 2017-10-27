@@ -1,0 +1,40 @@
+#!/usr/bin/env ansible-playbook
+- hosts: InformationService
+  tasks:
+  - name: List all log files
+    find:
+      paths: /root/info/
+      patterns: "*.log"
+    register: info_glob 
+  - name: purge info logs
+    file:
+      state: absent
+      path: "{{ item.path }}"
+    with_items:
+    - "{{ info_glob.files }}" 
+- hosts: Flps
+  tasks:
+  - name: List all log files
+    find:
+      paths: /root/flp/
+      patterns: "*.log"
+    register: flp_glob
+  - name: purge flp logs
+    file:
+      state: absent
+      path: "{{ item.path }}"
+    with_items:
+        - "{{ flp_glob.files }}"
+- hosts: Epns
+  tasks:
+  - name: List all log files
+    find:
+      paths: /root/epn/
+      patterns: "*.log"
+    register: tmp_glob  
+  - name: purge epn logs 
+    file: 
+      state: absent
+      path: "{{ item.path }}"
+    with_items:
+        - "{{ tmp_glob.files }}"
