@@ -1,17 +1,39 @@
 #!/usr/bin/env bash
 
-echo "Starting to run program 2000 times" >> runs.txt
-
-for i in {1..2000}
-do  
-    #setting status to run  
-    echo $i >> runs.txt
-    #starting up
-    ansible-playbook ../ansibleExp/start_balancing.yaml
-    sleep 4m 
-    #killing everything
-    ansible-playbook ../ansibleExp/stop_balancing.yaml
-    sleep 20s
-done 
-
+function runForever {
+    local LOGFILE=runs.log
+    date >> $LOGFILE
+    local run=0
     
+    while /bin/true;
+    do  
+        #setting status to run   
+        echo $run
+        echo $run >> $LOGFILE
+        run=$((run+=1)) 
+        #starting up
+        ansible-playbook ./ansible/start_balancing.yaml
+        sleep 4m 
+        #killing everything
+        ansible-playbook ./ansible/stop_balancing.yaml
+        sleep 20s
+    done 
+}
+
+status=`ps -efww | grep -w "runForever" | grep -v grep | grep -v $$ | awk '{ print $2 }'`
+
+if [ ! -z "$status" ]; then
+    echo stop balancing
+    stat=$(ps aux | grep runForever) 
+    pids=$(pgrep bash)
+    for i in $pids; do    
+        if [[ $stat == *"$i"* ]]; then
+            kill -9 $i
+        fi
+    done
+    exit 1
+fi
+
+    echo start balancing
+    export -f runForever
+    nohup bash -c runForever& 
