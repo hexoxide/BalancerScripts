@@ -5,15 +5,15 @@ sampleSize=22
 if [ "$2" = "sample" ]; then sampleSize=$3; fi;
 
 function startCluster {
-    ansible-playbook ./ansibleExp/start_balancing.yaml --extra-vars "sample_size=$sampleSize"
+    ansible-playbook ./ansible/start_balancing.yaml --extra-vars "sample_size=$sampleSize"
 }
 
 function stopCluster {
-    ansible-playbook ./ansibleExp/stop_balancing.yaml
+    ansible-playbook ./ansible/stop_balancing.yaml
 }
 
 function updateSettings {
-    ansible-playbook ./ansibleExp/deploy_settings.yaml
+    ansible-playbook ./ansible/deploy_settings.yaml
 }
 
 function checkEpn {
