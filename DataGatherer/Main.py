@@ -3,9 +3,9 @@
 
 
 from DataGatherer.FailureGenerator import FailureResults
-from DataGatherer.ShowStandardDeviation import showStandardDeviation
+from DataGatherer.VisualizeFailures import visualizeData
 
 def main(arguments):
     res = FailureResults.generateFailureResult("./info")
-    showStandardDeviation(res)
+    visualizeData(res)
     res.writeCSV("res.csv")

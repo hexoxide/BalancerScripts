@@ -1,0 +1,7 @@
+*.tar
+*.pyc
+*.csv
+*.png
+*.jpg
+*.ps
+/info

@@ -88,7 +88,7 @@ class FailureResults(object):
         averageLost = round(averageLost / len(tmpRes),2)
         averageAck = round(averageAck / len(tmpRes),2)
         averagePerc = round(averagePerc / len(tmpRes),2)
-        print(averageLost)
+   
         finalRes = []
         for date, ack, lost, perc in tmpRes:
             diffPerc = averagePerc - perc
