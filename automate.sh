@@ -31,9 +31,9 @@ if [ ! -z "$status" ]; then
             kill -9 $i
         fi
     done
+    ansible-playbook ./ansible/stop_balancing.yaml
     exit 1
 fi
-
-    echo start balancing
-    export -f runForever
-    nohup bash -c runForever& 
+echo start balancing
+export -f runForever
+nohup bash -c runForever & 

@@ -1,2 +1,7 @@
 sample_size: 22
 OTransport: "zeromq"
+zookeeperTick: 20
+
+flpResult:  ../res/flp
+epnResult: ../res/epn
+infoResult: ../res/info

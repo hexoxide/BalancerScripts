@@ -8,6 +8,8 @@
     - name: Stopping information service
       shell: pkill -9 InformationNode
       ignore_errors: yes
+    - name: Stopping zookeeper
+      shell: zookeeper-server stop
 - hosts: Flps
   tasks:
     - name: Stopping all Flps

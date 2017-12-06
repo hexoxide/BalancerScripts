@@ -1,0 +1,43 @@
+#!/usr/bin/env ansible-playbook 
+#
+- hosts: Flps
+  tasks:
+  - name: List all log files
+    find:
+      paths: /root/flp/
+      patterns: "*.log"
+    register: flp_glob 
+  - name : fetch log files  
+    fetch: 
+      src: "{{ item.path }}"
+      dest: "{{ flpResult }}"
+    with_items:
+      - "{{ flp_glob.files }}"
+
+- hosts: Epns
+  tasks:
+  - name: List all log fles
+    find:
+      paths: /root/epn/
+      patterns: "*.log"
+    register: epn_glob
+  - name: fetch all log files
+    fetch:
+      src: "{{ item.path }}"
+      dest: "{{ epnResult }}"
+    with_items:
+      - "{{ epn_glob.files }}"
+
+- hosts: InformationService
+  tasks:
+  - name: List all log files
+    find:
+      path: /root/info/
+      patterns: "*.log"
+    register: info_glob
+  - name: fetch log files
+    fetch:
+        src: "{{ item.path }}"
+        dest: "{{infoResult }}"
+    with_items:
+        - "{{ info_glob.files }} "

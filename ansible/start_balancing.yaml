@@ -5,6 +5,16 @@
 #      systemd: state=started name=collectd 
 - hosts: InformationService 
   tasks:
+  - name: set zookeeper variables
+    lineinfile:
+      path: /etc/zookeeper/conf/zoo.cfg
+      regexp: 'tickTime='
+      line: 'tickTime={{zookeeperTick}}'
+  - name: start zookeeper
+    shell: zookeeper-server start 
+  - name: wait for init of zookeeper
+    pause:
+      seconds: 2
   - name: Start information service
     shell: ./InformationNode --ip {{ ansible_eth1.ipv4.address }} --sample-size {{ sample_size }} --daemonize --info-config /root/info.yaml
     args:
@@ -21,11 +31,13 @@
       environment:
         LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/root/OLibs/:/root/fairsoft:/root/epn/
         O2Transport: "{{ OTransport }}"
-
+    - name: Wait for epns to startup
+      pause:
+        seconds: 2 
 - hosts: Flps
   tasks:
   - name: Start Flps
-    shell: ./flp --ip {{ ansible_eth1.ipv4.address }} --daemonize --flp-config /root/flp.yaml
+    shell: ./flp --restartFairRoot true --ip {{ ansible_eth1.ipv4.address }} --daemonize --flp-config /root/flp.yaml
     args:
         chdir: /root/flp
     environment:

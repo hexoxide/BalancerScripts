@@ -1,6 +1,10 @@
 Settings: 
   SampleSize: 100
 
+restartFairRoot: true
+sampleType: Sine
+
+
 InformationNode:
   Port: 5550
   Ip: 172.20.22.17
