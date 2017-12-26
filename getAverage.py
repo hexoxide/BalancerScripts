@@ -79,7 +79,7 @@ for tick, ave, allLost in dat:
     y.append(ave)
 
 graph = TGraph(len(dat),x,y)
-graph.SetTitle("Average data loss re-initialization algorithm by ticktime; ticktime (in milliseconds); lost time frames;")
+graph.SetTitle("Average data loss blacklist algorithm by ticktime; ticktime (in milliseconds); lost time frames;")
 graph.Draw("ACP")
 raw_input("press a key to continue")
 
@@ -98,7 +98,7 @@ for tick, ave, allLost in dat:
     
     lowest += 5
     highest+= 5
-    his = TH1F("Lost TF %i"  % tick, "Histogram lost Time frames from re-initialization algorithm with ticktime %i" % tick, 100, lowest, highest)
+    his = TH1F("Lost TF %i"  % tick, "Histogram lost Time frames from blacklist algorithm with ticktime %i" % tick, 100, lowest, highest)
     his.GetXaxis().SetTitle("lost")
     his.GetYaxis().SetTitle("Amount")
     for i in range(0, len(allLost)):

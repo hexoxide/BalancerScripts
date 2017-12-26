@@ -19,7 +19,7 @@ struct TimeFrameLossTickTimeEPNRatio {
         std::smatch res;
         std::regex_search(filename,res,isLayered);
         int ticktime = std::stoi(res[1]); 
-        std::cout << "Ticktime " << ticktime << "\n";
+        int amount = 0;
         std::fstream filereader(filename);
         if(filereader.good()){
             std::string line;
@@ -28,11 +28,13 @@ struct TimeFrameLossTickTimeEPNRatio {
                 if(std::regex_search(line, res, element)) {
                     //std::cout << res[1] <<":" << res[2] << "\n";
                     data[(ticktime / 5) - 1][std::stoi(res[1])] = std::stoi(res[2]);
+                    amount +=  1000 - std::stoi(res[2]);
                 }
 
                 
             }
         }
+        std::cout << "ticktime "<< ticktime <<  "  lost : "  << amount << "\n"; 
         filereader.close();
     }
 
@@ -62,13 +64,13 @@ void showTable(const TimeFrameLossTickTimeEPNRatio tf){
     for(int i = 0; i < TOTAL_TICKTIME / 5; i++) {
         std::cout << "ticktime\t| " << 5 + (i * 5) << " | ";
         for (int j = 0; j < CRASHED_EPNS; j++){
-             std::cout << tf.data[i][j] << " | ";
+             std::cout << 1000 - tf.data[i][j] << " & ";
         }
        std::cout << "\n";
     }
 }
 
-TCanvas* Topology (){
+TCanvas* LayeredView (){
     TimeFrameLossTickTimeEPNRatio ratio;
     showTable(ratio);
     TCanvas *c = new TCanvas("c","Graph2D example",0,0,600,400);
@@ -80,13 +82,12 @@ TCanvas* Topology (){
     Int_t index = 0;
     for(int x = 0; x < TOTAL_TICKTIME / 5; x++) {
         for (int y = 0; y < CRASHED_EPNS; y++){
-            dt->SetPoint(index, x,y,(1000 - ratio.data[x][y]));
+            dt->SetPoint(index, 5 + x * 5,y + 1,(1000 - ratio.data[x][y]));
             index++;
         }
     }
-    gStyle->SetPalette(1);
+      gStyle->SetPalette(1);
     dt->Draw("surf1");
-  //dt->SetMarkerStyle(20);
  //dt->Draw("pcol");
     return c;
 }
